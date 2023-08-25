@@ -48,14 +48,14 @@ map.addChild(
     tileSize: 256, // World is 256x256 pixels on 0 zoom in 3.0.
     getFeatureId: (feature) => feature.id,
     fetchTile: ({tx, ty, tz, sginal}) => {
-        return fetch(`https://geodata.example/${tx}/${ty}/${tz}`, {signal}).then(r => r.json())
+      return fetch(`https://geodata.example/${tx}/${ty}/${tz}`, {signal}).then((r) => r.json());
     },
 
     entity: (feature) =>
-      new MMapFeature({geometry: feature.geometry, properties: feature.properties}),
+      new MMapFeature({id: feature.id.toString(), geometry: feature.geometry, properties: feature.properties}),
 
     onFeatureAdd: (feature) => {
-        console.log(feature);
+      console.log(feature);
     },
 
     onFeatureRemove: (feature) => {
@@ -63,7 +63,6 @@ map.addChild(
     }
   })
 );
-
 ```
 
 Constructor parameters `MMapEntityTileLoader`:
@@ -85,7 +84,7 @@ export interface MMapEntityTileLoaderProps {
 }
 ```
 
-And a react version:
+And a React version:
 
 ```jsx
 const BOUNDS = [
@@ -95,59 +94,47 @@ const BOUNDS = [
 
 const LOCATION = {bounds: BOUNDS};
 
-const [mappableReact] = await Promise.all([
-  mappable.import('@mappable-world/mappable-reactify'),
-  mappable.ready
-]);
+const [mappableReact] = await Promise.all([mappable.import('@mappable-world/mappable-reactify'), mappable.ready]);
 const reactify = mappableReact.reactify.bindTo(React, ReactDOM);
 
-const {
-  MMap,
-  MMapDefaultSchemeLayer,
-  MMapDefaultFeaturesLayer,
-  MMapControlButton,
-  MMapControls,
-  MMapFeature
-} = reactify.module(mappable);
+const {MMap, MMapDefaultSchemeLayer, MMapDefaultFeaturesLayer, MMapControlButton, MMapControls, MMapFeature} =
+  reactify.module(mappable);
 
 const {useState, useCallback} = React;
 
-const {MMapZoomControl} = reactify.module(
-  await mappable.import('@mappable-world/mappable-controls@0.0.1')
-);
+const {MMapZoomControl} = reactify.module(await mappable.import('@mappable-world/mappable-controls@0.0.1'));
 
-const {MMapEntityTileLoader} = reactify.module(
-  await mappable.import('@mappable-world/mappable-entity-tile-loader')
-);
+const {MMapEntityTileLoader} = reactify.module(await mappable.import('@mappable-world/mappable-entity-tile-loader'));
 
 function App() {
-    return <MMap location={LOCATION} ref={(x) => (map = x)}>
-        <MMapDefaultSchemeLayer/>
-        <MMapDefaultFeaturesLayer/>
-        <MMapControls position="right">
-            <MMapZoomControl/>
-        </MMapControls>
-        <MMapControls position="top">
-            <MMapControlButton text={`urban area in loaded tiles: ${total.toFixed(2)} km2`}/>
-        </MMapControls>
-        <MMapEntityTileLoader
-            tileSize={TILE_SIZE}
-            getFeatureId={useCallback((feature) => feature.id, [])}
-            fetchTile={fetchTile}
-            entity={useCallback(
-                (feature) => (
-                    <MMapFeature geometry={feature.geometry} properties={feature.properties}/>
-                ),
-                []
-            )}
-            onFeatureAdd={useCallback((entity) => {
-                setTotal((total) => total + entity.properties.area_sqkm);
-            }, [])}
-            onFeatureRemove={useCallback((entity) => {
-                setTotal((total) => total - entity.properties.area_sqkm);
-            }, [])}
-        />
+  return (
+    <MMap location={LOCATION} ref={(x) => (map = x)}>
+      <MMapDefaultSchemeLayer />
+      <MMapDefaultFeaturesLayer />
+      <MMapControls position="right">
+        <MMapZoomControl />
+      </MMapControls>
+      <MMapControls position="top">
+        <MMapControlButton text={`urban area in loaded tiles: ${total.toFixed(2)} km2`} />
+      </MMapControls>
+      <MMapEntityTileLoader
+        tileSize={TILE_SIZE}
+        getFeatureId={useCallback((feature) => feature.id, [])}
+        fetchTile={fetchTile}
+        entity={useCallback(
+          (feature) => (
+            <MMapFeature id={feature.id.toString()} geometry={feature.geometry} properties={feature.properties} />
+          ),
+          []
+        )}
+        onFeatureAdd={useCallback((entity) => {
+          setTotal((total) => total + entity.properties.area_sqkm);
+        }, [])}
+        onFeatureRemove={useCallback((entity) => {
+          setTotal((total) => total - entity.properties.area_sqkm);
+        }, [])}
+      />
     </MMap>
+  );
 }
 ```
-
