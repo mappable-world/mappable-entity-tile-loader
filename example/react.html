@@ -74,7 +74,7 @@
                                 fetchTile={fetchTestTile}
                                 entity={useCallback(
                                     (feature) => (
-                                        <MMapFeature geometry={feature.geometry} properties={feature.properties} />
+                                        <MMapFeature id={feature.id.toString()} geometry={feature.geometry} properties={feature.properties} />
                                     ),
                                     []
                                 )}
@@ -91,7 +91,7 @@
                                 getFeatureId={useCallback((feature) => feature.properties.OBJECTID_1, [])}
                                 fetchTile={fetchRealRemoteTile}
                                 entity={useCallback((feature) => {
-                                    return (<MMapMarker coordinates={feature.geometry.coordinates}>
+                                    return (<MMapMarker id={feature.properties.OBJECTID_1.toString()} coordinates={feature.geometry.coordinates}>
                                         <div className="circle" title={`${feature.properties.name || ''} ${feature.properties.admin} `}></div>
                                     </MMapMarker>)
                                 }, [])}

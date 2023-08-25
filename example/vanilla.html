@@ -44,7 +44,11 @@
                         fetchTile: fetchTestTile,
 
                         entity: (feature) =>
-                            new MMapFeature({geometry: feature.geometry, properties: feature.properties}),
+                            new MMapFeature({
+                                id: feature.id.toString(),
+                                geometry: feature.geometry,
+                                properties: feature.properties
+                            }),
                         onFeatureAdd: (feature) => {
                             console.log(JSON.stringify(feature));
                             total += feature.properties.area_sqkm;
@@ -70,7 +74,10 @@
                         entity: (feature) => {
                             const elm = markerElement.cloneNode(true);
                             elm.title = `${feature.properties.name ?? ''} ${feature.properties.admin} `;
-                            return new MMapMarker({coordinates: feature.geometry.coordinates}, elm);
+                            return new MMapMarker(
+                                {id: feature.properties.OBJECTID_1.toString(), coordinates: feature.geometry.coordinates},
+                                elm
+                            );
                         }
                     })
                 );

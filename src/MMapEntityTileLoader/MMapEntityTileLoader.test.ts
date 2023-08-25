@@ -42,7 +42,6 @@ describe('MMap smoke test', () => {
             tileSize: 256, // World is 256x256 pixels on 0 zoom in 3.0.
             getFeatureId: (feature) => feature.id,
             fetchTile: ({tx, ty}) => {
-                console.log(tx, ty);
                 if (tx === 167) {
                     switch (ty) {
                         case 107:
@@ -64,7 +63,12 @@ describe('MMap smoke test', () => {
                 return Promise.resolve([]);
             },
 
-            entity: (feature) => new mappable.MMapFeature({geometry: feature.geometry, properties: feature.properties}),
+            entity: (feature) =>
+                new mappable.MMapFeature({
+                    id: feature.id as string,
+                    geometry: feature.geometry,
+                    properties: feature.properties
+                }),
             onFeatureAdd: (feature) => {
                 total += feature.properties.area_sqkm as number;
             },
@@ -95,8 +99,8 @@ describe('MMap smoke test', () => {
     });
 
     describe('Move map', () => {
-        it.only('should load and render another features', async () => {
-            map.setLocation({center: [57.859760289989055, 23.678781782281117], zoom: 9})
+        it('should load and render another features', async () => {
+            map.setLocation({center: [57.859760289989055, 23.678781782281117], zoom: 9});
             await nextTick();
 
             const tree = domToJson(map.container);
