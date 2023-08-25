@@ -1,0 +1,405 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MMap smoke test Move map should load and render another features 1`] = `
+{
+  "attributes": {
+    "class": "mappable--map-container",
+  },
+  "children": [
+    {
+      "attributes": {
+        "class": "mappable--map",
+        "style": "width: 643px; height: 856px;",
+      },
+      "children": [
+        {
+          "attributes": {
+            "class": "mappable--main-engine-container",
+          },
+          "children": [
+            {
+              "attributes": {},
+              "children": [
+                {
+                  "attributes": {
+                    "class": "mappable--layer mappable--tile-layer",
+                    "style": "perspective: 1597.3177456394797px; opacity: 1;",
+                  },
+                  "children": [
+                    {
+                      "attributes": {
+                        "class": "mappable--tile-layer__container",
+                        "data-z": "8",
+                        "style": "transform: 
+            rotateX(0.00000rad)
+            translate3d(0px, 0px, 798.6588728197398px)
+            rotateZ(0.00000rad) translate3d(-461px, -288px, 0px)
+        ; z-index: -1;",
+                      },
+                      "nodeName": "mappable",
+                    },
+                    {
+                      "attributes": {
+                        "class": "mappable--tile-layer__container",
+                        "data-z": "9",
+                        "style": "transform: 
+            rotateX(0.00000rad)
+            translate3d(0px, 0px, 0px)
+            rotateZ(0.00000rad) translate3d(0px, 0px, 0px)
+        ; z-index: 9;",
+                      },
+                      "nodeName": "mappable",
+                    },
+                  ],
+                  "nodeName": "mappable",
+                },
+              ],
+              "nodeName": "mappable",
+            },
+          ],
+          "nodeName": "mappable",
+        },
+        {
+          "attributes": {
+            "class": "mappable--top-engine-container",
+          },
+          "children": [
+            {
+              "attributes": {},
+              "children": [
+                {
+                  "attributes": {
+                    "class": "mappable--layer mappable--graphics-layer",
+                    "style": "perspective: 1597.3177456394797px; opacity: 1;",
+                  },
+                  "children": [
+                    {
+                      "attributes": {
+                        "height": "1712",
+                        "style": "transform: translate3d(-321.5px, -428px, 0px) rotateX(0rad) rotateZ(0rad) translate3d(0px, 0px, 0px) scale(1); will-change: transform;",
+                        "viewBox": "0 0 1286 1712",
+                        "width": "1286",
+                        "xlink": "http://www.w3.org/1999/xlink",
+                      },
+                      "children": [
+                        {
+                          "attributes": {
+                            "opacity": "1",
+                            "transform": "translate(643, 856)",
+                          },
+                          "children": [
+                            {
+                              "attributes": {
+                                "fill": "rgb(0,102,255)",
+                                "fill-opacity": "0.6",
+                                "fill-rule": "evenodd",
+                                "id": "mappable--feature-2-1434",
+                                "stroke-dasharray": "",
+                                "stroke-linecap": "round",
+                                "stroke-linejoin": "round",
+                                "stroke-width": "1.000",
+                                "style": "cursor: inherit;",
+                              },
+                              "children": [
+                                {
+                                  "attributes": {
+                                    "d": "M-443.880859866189,-315.638009292079 L-395.2633783845231,-261.38352329821464 L-354.04011912509304,-201.13334261542514 L-363.5980450510542,-195.9464370125079 L-379.1955265325996,-212.97342900237527 L-419.32752653276475,-271.1206608729335 L-453.6081191254889,-299.9610257774184 L-461.73611912552224,-311.56586507589054 L-462.43226727367073,-322.21201310191645 L-453.43878579216107,-332.777698855416 L-443.880859866189,-315.638009292079 Z",
+                                    "data-feature-id": "1434",
+                                    "stroke": "rgb(0,102,255)",
+                                    "stroke-opacity": "1",
+                                  },
+                                  "nodeName": "path",
+                                },
+                              ],
+                              "nodeName": "g",
+                            },
+                          ],
+                          "nodeName": "g",
+                        },
+                      ],
+                      "nodeName": "svg",
+                    },
+                  ],
+                  "nodeName": "mappable",
+                },
+                {
+                  "attributes": {
+                    "class": "mappable--layer mappable--marker-layer",
+                    "style": "opacity: 1; transform-origin: 321.5px 428px;",
+                  },
+                  "nodeName": "mappable",
+                },
+              ],
+              "nodeName": "mappable",
+            },
+          ],
+          "nodeName": "mappable",
+        },
+      ],
+      "nodeName": "mappable",
+    },
+    {
+      "attributes": {
+        "class": "mappable--map-copyrights mappable--map-copyrights_bottom mappable--map-copyrights_right",
+      },
+      "children": [
+        {
+          "attributes": {
+            "class": "mappable--map-copyrights__container",
+          },
+          "children": [
+            {
+              "attributes": {
+                "class": "mappable--map-copyrights__text",
+              },
+              "nodeName": "span",
+            },
+            {
+              "attributes": {
+                "class": "mappable--map-copyrights__user-agreements",
+                "href": "https://mappable.world/legal/tos",
+                "target": "_blank",
+              },
+              "children": [
+                "User Agreement",
+              ],
+              "nodeName": "a",
+            },
+          ],
+          "nodeName": "div",
+        },
+        {
+          "attributes": {
+            "class": "mappable--map-copyrights__logo mappable--icon-logo-en-black",
+            "style": "width: 80px; height: 20px;",
+          },
+          "nodeName": "span",
+        },
+      ],
+      "nodeName": "div",
+    },
+  ],
+  "nodeName": "mappable",
+}
+`;
+
+exports[`MMap smoke test should add several polygons on map 1`] = `
+{
+  "attributes": {
+    "class": "mappable--map-container",
+  },
+  "children": [
+    {
+      "attributes": {
+        "class": "mappable--map",
+        "style": "width: 643px; height: 856px;",
+      },
+      "children": [
+        {
+          "attributes": {
+            "class": "mappable--main-engine-container",
+          },
+          "children": [
+            {
+              "attributes": {},
+              "children": [
+                {
+                  "attributes": {
+                    "class": "mappable--layer mappable--tile-layer",
+                    "style": "perspective: 1597.3177456394797px; opacity: 1;",
+                  },
+                  "children": [
+                    {
+                      "attributes": {
+                        "class": "mappable--tile-layer__container",
+                        "data-z": "8",
+                        "style": "transform: 
+            rotateX(0.00000rad)
+            translate3d(0px, 0px, 0px)
+            rotateZ(0.00000rad) translate3d(0px, 0px, 0px)
+        ; z-index: 8;",
+                      },
+                      "nodeName": "mappable",
+                    },
+                  ],
+                  "nodeName": "mappable",
+                },
+              ],
+              "nodeName": "mappable",
+            },
+          ],
+          "nodeName": "mappable",
+        },
+        {
+          "attributes": {
+            "class": "mappable--top-engine-container",
+          },
+          "children": [
+            {
+              "attributes": {},
+              "children": [
+                {
+                  "attributes": {
+                    "class": "mappable--layer mappable--graphics-layer",
+                    "style": "perspective: 1597.3177456394797px; opacity: 1;",
+                  },
+                  "children": [
+                    {
+                      "attributes": {
+                        "height": "1712",
+                        "style": "transform: translate3d(-321.5px, -428px, 0px) rotateX(0rad) rotateZ(0rad) translate3d(0px, 0px, 0px) scale(1); will-change: transform;",
+                        "viewBox": "0 0 1286 1712",
+                        "width": "1286",
+                        "xlink": "http://www.w3.org/1999/xlink",
+                      },
+                      "children": [
+                        {
+                          "attributes": {
+                            "opacity": "1",
+                            "transform": "translate(643, 856)",
+                          },
+                          "children": [
+                            {
+                              "attributes": {
+                                "fill": "rgb(0,102,255)",
+                                "fill-opacity": "0.6",
+                                "fill-rule": "evenodd",
+                                "id": "mappable--feature-0-1437",
+                                "stroke-dasharray": "",
+                                "stroke-linecap": "round",
+                                "stroke-linejoin": "round",
+                                "stroke-width": "1.000",
+                                "style": "cursor: inherit;",
+                              },
+                              "children": [
+                                {
+                                  "attributes": {
+                                    "d": "M486.0097416863009,277.03800394974223 L508.5875194641667,280.5985990216386 L537.2142602050208,294.7950177865123 L537.0261120568757,300.5145376208902 L514.8622602049327,306.8794918062531 L500.9863342789522,294.26099484168753 L489.98907501965004,292.38155763953364 L482.4913713159149,286.69106655417454 L486.0097416863009,277.03800394974223 Z",
+                                    "data-feature-id": "1437",
+                                    "stroke": "rgb(0,102,255)",
+                                    "stroke-opacity": "1",
+                                  },
+                                  "nodeName": "path",
+                                },
+                              ],
+                              "nodeName": "g",
+                            },
+                            {
+                              "attributes": {
+                                "fill": "rgb(0,102,255)",
+                                "fill-opacity": "0.6",
+                                "fill-rule": "evenodd",
+                                "id": "mappable--feature-0-1429",
+                                "stroke-dasharray": "",
+                                "stroke-linecap": "round",
+                                "stroke-linejoin": "round",
+                                "stroke-width": "1.000",
+                                "style": "cursor: inherit;",
+                              },
+                              "children": [
+                                {
+                                  "attributes": {
+                                    "d": "M111.87714909220995,-135.89159024307173 L127.17359353671964,-160.57308639264193 L131.19996390710185,-172.97049716800393 L138.660037981208,-158.67481143022087 L133.7117416848905,-140.5729501380183 L125.61196390708028,-131.3626177704582 L115.02863057370632,-125.9049576888192 L98.932556499567,-125.72740872734266 L111.87714909220995,-135.89159024307173 Z",
+                                    "data-feature-id": "1429",
+                                    "stroke": "rgb(0,102,255)",
+                                    "stroke-opacity": "1",
+                                  },
+                                  "nodeName": "path",
+                                },
+                              ],
+                              "nodeName": "g",
+                            },
+                            {
+                              "attributes": {
+                                "fill": "rgb(0,102,255)",
+                                "fill-opacity": "0.6",
+                                "fill-rule": "evenodd",
+                                "id": "mappable--feature-0-1436",
+                                "stroke-dasharray": "",
+                                "stroke-linecap": "round",
+                                "stroke-linejoin": "round",
+                                "stroke-width": "1.000",
+                                "style": "cursor: inherit;",
+                              },
+                              "children": [
+                                {
+                                  "attributes": {
+                                    "d": "M355.24677872281063,243.08755065951573 L432.32166761200824,267.0009656078346 L436.12226020462185,276.3032170987917 L420.3272231675164,279.71491830692594 L403.88307501930285,279.11379270212 L385.3881120562655,261.42829146665554 L357.64566761171045,253.84875902608565 L355.24677872281063,243.08755065951573 Z",
+                                    "data-feature-id": "1436",
+                                    "stroke": "rgb(0,102,255)",
+                                    "stroke-opacity": "1",
+                                  },
+                                  "nodeName": "path",
+                                },
+                              ],
+                              "nodeName": "g",
+                            },
+                          ],
+                          "nodeName": "g",
+                        },
+                      ],
+                      "nodeName": "svg",
+                    },
+                  ],
+                  "nodeName": "mappable",
+                },
+                {
+                  "attributes": {
+                    "class": "mappable--layer mappable--marker-layer",
+                    "style": "opacity: 1; transform-origin: 321.5px 428px;",
+                  },
+                  "nodeName": "mappable",
+                },
+              ],
+              "nodeName": "mappable",
+            },
+          ],
+          "nodeName": "mappable",
+        },
+      ],
+      "nodeName": "mappable",
+    },
+    {
+      "attributes": {
+        "class": "mappable--map-copyrights mappable--map-copyrights_bottom mappable--map-copyrights_right",
+      },
+      "children": [
+        {
+          "attributes": {
+            "class": "mappable--map-copyrights__container",
+          },
+          "children": [
+            {
+              "attributes": {
+                "class": "mappable--map-copyrights__text",
+              },
+              "nodeName": "span",
+            },
+            {
+              "attributes": {
+                "class": "mappable--map-copyrights__user-agreements",
+                "href": "https://mappable.world/legal/tos",
+                "target": "_blank",
+              },
+              "children": [
+                "User Agreement",
+              ],
+              "nodeName": "a",
+            },
+          ],
+          "nodeName": "div",
+        },
+        {
+          "attributes": {
+            "class": "mappable--map-copyrights__logo mappable--icon-logo-en-black",
+            "style": "width: 80px; height: 20px;",
+          },
+          "nodeName": "span",
+        },
+      ],
+      "nodeName": "div",
+    },
+  ],
+  "nodeName": "mappable",
+}
+`;
