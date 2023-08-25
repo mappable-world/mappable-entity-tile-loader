@@ -2,7 +2,12 @@
 
 ---
 
-Mappable JS API package loading data by tiles
+Mappable JS API package loading data by tiles.
+
+Allows you to load and display on the map only those objects that are included in the tile areas
+displayed on the map.
+
+The data is loaded tile-by-tile, so you don't have to load all the data at once.
 
 [![npm version](https://badge.fury.io/js/@mappable-world/mappable-entity-tile-loader.svg)](https://badge.fury.io/js/@mappable-world/mappable-entity-tile-loader)
 [![npm](https://img.shields.io/npm/dm/@mappable-world/mappable-entity-tile-loader.svg)](https://www.npmjs.com/package/@mappable-world/mappable-entity-tile-loader)
