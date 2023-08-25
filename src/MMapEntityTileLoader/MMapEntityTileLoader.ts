@@ -55,7 +55,7 @@ export class MMapEntityTileLoader extends mappable.MMapComplexEntity<MMapEntityT
             }
         });
 
-        this.addChild(this._listener);
+        this._addDirectChild(this._listener);
 
         this._requestDeleteFeatures = this._props.delayDeletion
             ? throttle(() => this._deleteFeatures(), this._props.delayDeletion)

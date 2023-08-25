@@ -16,16 +16,23 @@ import {DEFAULT_THROTTLE_TIMOUT} from '../MMapEntityTileLoader';
  * ```jsx
  * <MMap location={LOCATION} ref={x => map = x}>
  *     <MMapDefaultSchemeLayer />
- *     <MMapFeatureDataSource id="my-source"/>
- *     <MMapLayer source="my-source" type="markers" zIndex={1800}/>
+ *     <MMapDefaultFeaturesLayer />
  *     <MMapEntityTileLoader
- *         createEntity={(feature) => <MMapMarker
- *             coordinates={feature.geometry.coordinates}
- *             source={'my-source'} >
- *                 <img src={'./pin.svg'}/>
- *             </MMapMarker>}
- *         method={gridSizedMethod}
- *         features={points}
+ *          tileSize={TILE_SIZE}
+ *          getFeatureId={useCallback((feature) => feature.id, [])}
+ *          fetchTile={fetchTile}
+ *          entity={useCallback(
+ *              (feature) => (
+ *                  <MMapFeature geometry={feature.geometry} properties={feature.properties} />
+ *              ),
+ *              []
+ *          )}
+ *          onFeatureAdd={useCallback((entity) => {
+*               setTotal((total) => total + entity.properties.area_sqkm);
+ *          }, [])}
+ *          onFeatureRemove={useCallback((entity) => {
+ *              setTotal((total) => total - entity.properties.area_sqkm);
+ *          }, [])}
  *     />
  * </MMap>
  * ```

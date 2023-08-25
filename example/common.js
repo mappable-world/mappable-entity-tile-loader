@@ -14,8 +14,8 @@ mappable.import.loaders.unshift(async (pkg) => {
 });
 
 const BOUNDS = [
-    [54.58311, 25.9985],
-    [56.30248, 24.47889]
+    [53.20890963521473, 25.52765018907181],
+    [57.444403818421854, 24.71096299361919]
 ];
 
 const LOCATION = {bounds: BOUNDS};
@@ -42,18 +42,14 @@ function makeTileGeometry(projection, {tx, ty, tz}) {
     const wc2ll = (wc) => projection.fromWorldCoordinates(wc);
 
     const coordinates = [
-        [
-            wc2ll({x: x, y: y}),
-            wc2ll({x: x + ts, y: y}),
-            wc2ll({x: x + ts, y: y - ts}),
-            wc2ll({x: x, y: y - ts})
-        ]
+        [wc2ll({x: x, y: y}), wc2ll({x: x + ts, y: y}), wc2ll({x: x + ts, y: y - ts}), wc2ll({x: x, y: y - ts})]
     ];
 
     return {type: 'Polygon', coordinates};
 }
 
 async function fetchTile({tx, ty, tz, signal}) {
+    // For testing purposes only, we are emulating data downloads over the network
     await new Promise((r) => setTimeout(r, 50 * Math.random()));
     signal.throwIfAborted();
 

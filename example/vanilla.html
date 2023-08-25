@@ -45,6 +45,7 @@
                         entity: (feature) =>
                             new MMapFeature({geometry: feature.geometry, properties: feature.properties}),
                         onFeatureAdd: (feature) => {
+                            console.log(JSON.stringify(feature));
                             total += feature.properties.area_sqkm;
                             totalButton.update({text: `urban area in loaded tiles: ${total.toFixed(2)} km2`});
                         },
