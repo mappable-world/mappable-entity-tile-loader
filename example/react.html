@@ -33,7 +33,8 @@
                     MMapDefaultFeaturesLayer,
                     MMapControlButton,
                     MMapControls,
-                    MMapFeature
+                    MMapFeature,
+                    MMapMarker
                 } = reactify.module(mappable);
 
                 const {useState, useCallback} = React;
@@ -58,7 +59,7 @@
                     const [total, setTotal] = useState(0);
 
                     return (
-                        <MMap location={location} ref={(x) => (map = x)}>
+                        <MMap location={location} zoomRange={ZOOM_RANGE} ref={(x) => (map = x)}>
                             <MMapDefaultSchemeLayer />
                             <MMapDefaultFeaturesLayer />
                             <MMapControls position="right">
@@ -70,7 +71,7 @@
                             <MMapEntityTileLoader
                                 tileSize={TILE_SIZE}
                                 getFeatureId={useCallback((feature) => feature.id, [])}
-                                fetchTile={fetchTile}
+                                fetchTile={fetchTestTile}
                                 entity={useCallback(
                                     (feature) => (
                                         <MMapFeature geometry={feature.geometry} properties={feature.properties} />
@@ -82,6 +83,17 @@
                                 }, [])}
                                 onFeatureRemove={useCallback((entity) => {
                                     setTotal((total) => total - entity.properties.area_sqkm);
+                                }, [])}
+                            />
+
+                            <MMapEntityTileLoader
+                                tileSize={TILE_SIZE}
+                                getFeatureId={useCallback((feature) => feature.properties.OBJECTID_1, [])}
+                                fetchTile={fetchRealRemoteTile}
+                                entity={useCallback((feature) => {
+                                    return (<MMapMarker coordinates={feature.geometry.coordinates}>
+                                        <div className="circle" title={`${feature.properties.name || ''} ${feature.properties.admin} `}></div>
+                                    </MMapMarker>)
                                 }, [])}
                             />
                         </MMap>

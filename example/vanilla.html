@@ -24,13 +24,14 @@
                     MMapDefaultFeaturesLayer,
                     MMapControlButton,
                     MMapControls,
-                    MMapFeature
+                    MMapFeature,
+                    MMapMarker
                 } = mappable;
 
                 const {MMapZoomControl} = await mappable.import('@mappable-world/mappable-controls@0.0.1');
                 const {MMapEntityTileLoader} = await mappable.import('@mappable-world/mappable-entity-tile-loader');
 
-                map = new MMap(document.getElementById('app'), {location: LOCATION});
+                map = new MMap(document.getElementById('app'), {location: LOCATION, zoomRange: ZOOM_RANGE});
 
                 let total = 0;
                 const totalButton = new MMapControlButton({text: '...'});
@@ -40,7 +41,7 @@
                     new MMapEntityTileLoader({
                         tileSize: TILE_SIZE, // World is 256x256 pixels on 0 zoom in 3.0.
                         getFeatureId: (feature) => feature.id,
-                        fetchTile: fetchTile,
+                        fetchTile: fetchTestTile,
 
                         entity: (feature) =>
                             new MMapFeature({geometry: feature.geometry, properties: feature.properties}),
@@ -56,13 +57,28 @@
                     })
                 );
 
+                const markerElement = document.createElement('div');
+                markerElement.classList.add('circle');
+
+                map.addChild(
+                    new MMapEntityTileLoader({
+                        delayDeletion: 500,
+                        tileSize: TILE_SIZE, // World is 256x256 pixels on 0 zoom in 3.0.
+                        getFeatureId: (feature) => feature.properties.OBJECTID_1,
+                        fetchTile: fetchRealRemoteTile,
+
+                        entity: (feature) => {
+                            const elm = markerElement.cloneNode(true);
+                            elm.title = `${feature.properties.name ?? ''} ${feature.properties.admin} `;
+                            return new MMapMarker({coordinates: feature.geometry.coordinates}, elm);
+                        }
+                    })
+                );
+
                 map.addChild(new MMapDefaultSchemeLayer());
                 map.addChild(new MMapDefaultFeaturesLayer());
 
-                map.addChild(
-                    new MMapControls({position: 'right'})
-                        .addChild(new MMapZoomControl({}))
-                );
+                map.addChild(new MMapControls({position: 'right'}).addChild(new MMapZoomControl({})));
             }
         </script>
 
