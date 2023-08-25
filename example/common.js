@@ -23,6 +23,11 @@ const TILE_SIZE = 256;
 const TEST_JSON = 'https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_50m_urban_areas.geojson';
 
 let geojson = null;
+
+/**
+ * Loading test data
+ * @returns {Promise<*>}
+ */
 async function getJson() {
     if (geojson === null) {
         geojson = await (await fetch(TEST_JSON)).json();
@@ -32,6 +37,14 @@ async function getJson() {
     return geojson;
 }
 
+/**
+ * For the turf library, we generate a rectangular geojson to calculate point intersections
+ * @param projection
+ * @param tx
+ * @param ty
+ * @param tz
+ * @returns {{coordinates: *[][], type: string}}
+ */
 function makeTileGeometry(projection, {tx, ty, tz}) {
     const ntiles = 2 ** tz;
     const ts = (1 / ntiles) * 2;
