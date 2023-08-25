@@ -1,6 +1,6 @@
 import type {LngLatBounds} from '@mappable-world/mappable-types/common/types';
 import {MMap} from '@mappable-world/mappable-types';
-import {MMapButtonExample} from './MMapButtonExample';
+import {MMapEntityTileLoader} from './MMapEntityTileLoader';
 
 describe('MMap smoke test', () => {
     const BOUNDS: LngLatBounds = [
@@ -26,7 +26,7 @@ describe('MMap smoke test', () => {
     it('should make map', () => {
         map.addChild(
             new mappable.MMapControls({position: 'bottom'}, [
-                new MMapButtonExample({
+                new MMapEntityTileLoader({
                     text: 'Some text',
                     className: 'user-class',
                     onClick: () => {

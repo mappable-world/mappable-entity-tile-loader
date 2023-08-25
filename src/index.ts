@@ -1,1 +1,1 @@
-export * from './MMapButtonExample/MMapButtonExample';
+export * from './MMapEntityTileLoader/MMapEntityTileLoader';

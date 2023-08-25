@@ -1,10 +1,16 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
     <head>
         <title>Vanila example @mappable-world/mappable-entity-tile-loader</title>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
         <script src="https://js.api.mappable.world/3.0/?apikey=%APIKEY%&lang=en_US"></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/Turf.js/6.5.0/turf.min.js"
+            integrity="sha512-Q7HOppxoH0L2M7hreVoFCtUZimR2YaY0fBewIYzkCgmNtgOOZ5IgMNYxHgfps0qrO1ef5m7L1FeHrhXlq1I9HA=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        ></script>
         <script src="common.js"></script>
         <script>
             window.map = null;
@@ -12,20 +18,49 @@
             main();
             async function main() {
                 await mappable.ready;
-                const {MMap, MMapDefaultSchemeLayer, MMapDefaultFeaturesLayer, MMapControls} = mappable;
+                const {
+                    MMap,
+                    MMapDefaultSchemeLayer,
+                    MMapDefaultFeaturesLayer,
+                    MMapControlButton,
+                    MMapControls,
+                    MMapFeature
+                } = mappable;
 
                 const {MMapZoomControl} = await mappable.import('@mappable-world/mappable-controls@0.0.1');
-                const {MMapButtonExample} = await mappable.import('@mappable-world/mappable-entity-tile-loader');
+                const {MMapEntityTileLoader} = await mappable.import('@mappable-world/mappable-entity-tile-loader');
 
                 map = new MMap(document.getElementById('app'), {location: LOCATION});
 
+                let total = 0;
+                const totalButton = new MMapControlButton({text: '...'});
+                map.addChild(new MMapControls({position: 'top'}, [totalButton]));
+
+                map.addChild(
+                    new MMapEntityTileLoader({
+                        tileSize: TILE_SIZE, // World is 256x256 pixels on 0 zoom in 3.0.
+                        getFeatureId: (feature) => feature.id,
+                        fetchTile: fetchTile,
+
+                        entity: (feature) =>
+                            new MMapFeature({geometry: feature.geometry, properties: feature.properties}),
+                        onFeatureAdd: (feature) => {
+                            total += feature.properties.area_sqkm;
+                            totalButton.update({text: `urban area in loaded tiles: ${total.toFixed(2)} km2`});
+                        },
+                        onFeatureRemove: (feature) => {
+                            total -= feature.properties.area_sqkm;
+                            totalButton.update({text: `urban area in loaded tiles: ${total.toFixed(2)} km2`});
+                        }
+                    })
+                );
+
                 map.addChild(new MMapDefaultSchemeLayer());
-                map.addChild((defaultFeatures = new MMapDefaultFeaturesLayer()));
+                map.addChild(new MMapDefaultFeaturesLayer());
 
                 map.addChild(
                     new MMapControls({position: 'right'})
                         .addChild(new MMapZoomControl({}))
-                        .addChild(new MMapButtonExample({text: 'My button', onClick: () => alert('Click!')}))
                 );
             }
         </script>
