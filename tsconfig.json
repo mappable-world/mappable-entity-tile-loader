@@ -1,7 +1,8 @@
 {
     "extends": ["@mappable-world/mappable-cli"],
     "compilerOptions": {
-        "typeRoots": ["./node_modules/@types", "./node_modules/@mappable-world"]
+        "typeRoots": ["./node_modules/@types", "./node_modules/@mappable-world"],
+        "allowSyntheticDefaultImports": true
     },
-    "include": ["./src",  "./node_modules/@mappable-world/mappable-cli/index.d.ts"]
+    "include": ["./src", "./node_modules/@mappable-world/mappable-cli/index.d.ts"]
 }

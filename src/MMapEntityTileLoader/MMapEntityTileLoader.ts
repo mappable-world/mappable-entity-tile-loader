@@ -1,9 +1,9 @@
 import type {GenericFeature, LngLat, MMapEntity} from '@mappable-world/mappable-types';
 
-import {throttle} from './helpers/throttle';
 import {MMapListener} from '@mappable-world/mappable-types';
 import {MMapEntityTileLoaderReactifyOverride} from './react/MMapEntityTileLoader';
 import {getTilesForViewport} from './helpers/getTilesForViewport';
+import throttle from 'lodash/throttle';
 
 export type GeojsonFeature = GenericFeature<LngLat>;
 
@@ -15,7 +15,7 @@ export interface MMapEntityTileLoaderProps {
     entity: (feature: GeojsonFeature) => MMapEntity<unknown>;
     onFeatureAdd: (feature: GeojsonFeature) => void | false;
     onFeatureRemove: (feature: GeojsonFeature) => void | false;
-    delayDeletion?: number;
+    throttleTimeout?: number;
 }
 
 interface Tile {
@@ -45,7 +45,7 @@ export class MMapEntityTileLoader extends mappable.MMapComplexEntity<MMapEntityT
     private _requestDeleteFeatures: Function;
 
     constructor(props: MMapEntityTileLoaderProps) {
-        super({delayDeletion: DEFAULT_THROTTLE_TIMOUT, ...props}, {container: true});
+        super({throttleTimeout: DEFAULT_THROTTLE_TIMOUT, ...props}, {container: true});
 
         this._listener = new mappable.MMapListener({
             onUpdate: ({mapInAction}) => {
@@ -57,12 +57,20 @@ export class MMapEntityTileLoader extends mappable.MMapComplexEntity<MMapEntityT
 
         this._addDirectChild(this._listener);
 
-        this._requestDeleteFeatures = this._props.delayDeletion
-            ? throttle(() => this._deleteFeatures(), this._props.delayDeletion)
+        this._requestDeleteFeatures = this._props.throttleTimeout
+            ? throttle(() => this._deleteFeatures(), this._props.throttleTimeout)
             : () => this._deleteFeatures();
     }
 
-    _onDetach() {
+    protected override _onUpdate({throttleTimeout}: Partial<MMapEntityTileLoaderProps>) {
+        if (throttleTimeout !== undefined) {
+            this._requestDeleteFeatures = throttleTimeout
+                ? throttle(() => this._deleteFeatures(), throttleTimeout)
+                : () => this._deleteFeatures();
+        }
+    }
+
+    protected _onDetach() {
         for (const child of this.children) {
             this.removeChild(child);
         }
@@ -71,7 +79,7 @@ export class MMapEntityTileLoader extends mappable.MMapComplexEntity<MMapEntityT
         this._features.clear();
     }
 
-    _onAttach() {
+    protected _onAttach() {
         this._reconcileTiles();
     }
 

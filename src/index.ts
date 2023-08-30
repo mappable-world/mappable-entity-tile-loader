@@ -1,1 +1,1 @@
-export * from './MMapEntityTileLoader/MMapEntityTileLoader';
+export * from './MMapEntityTileLoader';
