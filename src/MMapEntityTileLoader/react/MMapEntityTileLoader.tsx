@@ -45,6 +45,15 @@ type MMapEntityTileLoaderReactifiedProps = Prettify<
     Omit<MMapEntityTileLoaderProps, 'entity'> & {
         /** Function that returns MMapEntity react component to render feature*/
         entity: (feature: GeojsonFeature) => TReact.ReactElement;
+
+        /**
+         * Every time a new tile is loaded and new features are added,
+         * React will re-calls render for each added feature.
+         * To avoid this, you can set renderDelay (in milliseconds).
+         * After this time, React will render all features at once render call.
+         * @default 300
+         */
+        renderDelay?: number;
     }
 >;
 
@@ -54,6 +63,8 @@ type MMapEntityTileLoaderImperative = new (
 type MMapEntityTileLoaderR = TReact.ForwardRefExoticComponent<
     MMapEntityTileLoaderReactifiedProps & TReact.RefAttributes<MMapEntity<MMapEntityTileLoaderReactifiedProps>>
 >;
+
+export const DEFAULT_THROTTLE_TIMOUT = 300;
 
 export const MMapEntityTileLoaderReactifyOverride: CustomReactify<MMapEntityTileLoaderI, MMapEntityTileLoaderR> = (
     MMapEntityTileLoaderI,
@@ -89,7 +100,10 @@ export const MMapEntityTileLoaderReactifyOverride: CustomReactify<MMapEntityTile
     >((props, ref) => {
         const [features, setFeatures] = React.useState<GeojsonFeature[]>([]);
 
-        const updateFeaturesList = React.useMemo(() => throttle(setFeatures, props.delayExecution), []);
+        const updateFeaturesList = React.useMemo(
+            () => throttle(setFeatures, props.renderDelay ?? DEFAULT_THROTTLE_TIMOUT),
+            [props.renderDelay ?? DEFAULT_THROTTLE_TIMOUT]
+        );
 
         const onFeatureAdd = React.useCallback(
             (feature: GeojsonFeature): false => {

@@ -61,7 +61,14 @@ map.addChild(new MMapDefaultFeaturesLayer());
 
 map.addChild(
   new MMapEntityTileLoader({
-    tileSize: 256, // World is 256x256 pixels on 0 zoom in 3.0.
+    /**
+     * By default, when changing tiles, old points are immediately deleted.
+     * But the same points may appear in the new tile, then there was no point in deleting them.
+     * Set the delay for applying deletion operations
+     */
+    removalDelay: 500,
+
+    tileSize: 256, // World is 256x256 pixels on 0 zoom in Mappable
     getFeatureId: (feature) => feature.id,
     fetchTile: ({tx, ty, tz, sginal}) => {
       return fetch(`https://geodata.example/${tx}/${ty}/${tz}`, {signal}).then((r) => r.json());
@@ -103,14 +110,45 @@ import type {GenericFeature, LngLat, MMapEntity} from '@mappable-world/mappable-
 export type GeojsonFeature = GenericFeature<LngLat>;
 
 export interface MMapEntityTileLoaderProps {
-  /** Tile size in pixels. World is 256x256 pixels on 0 zoom in 3.0. */
+  /** Tile size in pixels. World is 256x256 pixels on 0 zoom in Mappable */
   readonly tileSize: number;
+
+  /**
+   * Function for loading data by tile, should return an array of GeoJSON features
+   */
   fetchTile: (args: {tx: number; ty: number; tz: number; signal: AbortSignal}) => Promise<GeojsonFeature[]>;
+
+  /**
+   * Function for getting the id of the feature.
+   */
   getFeatureId: (feature: GeojsonFeature) => string;
+
+  /**
+   * Function for creating an [MMapEntity](https://mappable.world/docs/js-api/ref/index.html#class-mmapentity) from a feature.
+   */
   entity: (feature: GeojsonFeature) => MMapEntity<unknown>;
+
+  /**
+   * Function is called when a feature is added to the map.
+   * If the function returns `false`, the feature will not be added to the map.
+   * In this case, you should add the feature to the map yourself.
+   */
   onFeatureAdd: (feature: GeojsonFeature) => void | false;
+
+  /**
+   * Function is called when a feature is removed from the map.
+   * If the function returns `false`, the feature will not be removed from the map.
+   * In this case, you should remove the feature from the map yourself.
+   */
   onFeatureRemove: (feature: GeojsonFeature) => void | false;
-  delayDeletion?: number;
+
+  /**
+   * By default, when changing tiles, old features are immediately deleted.
+   * But the same points may appear in the new tile, then there was no point in deleting them.
+   * Set the delay for applying deletion operations.
+   * @default 0
+   */
+  removalDelay?: number;
 }
 ```
 

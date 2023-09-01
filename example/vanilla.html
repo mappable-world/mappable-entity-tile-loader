@@ -66,14 +66,20 @@
 
                 map.addChild(
                     new MMapEntityTileLoader({
-                        delayDeletion: 500,
-                        tileSize: TILE_SIZE, // World is 256x256 pixels on 0 zoom in 3.0.
+                        /**
+                         * By default, when changing tiles, old points are immediately deleted.
+                         * But the same points may appear in the new tile, then there was no point in deleting them.
+                         * Set the delay for applying deletion operations
+                         */
+                        delayExecution: 500,
+                        tileSize: TILE_SIZE, // World is 256x256 pixels on 0 zoom in Mappable
                         getFeatureId: (feature) => feature.properties.OBJECTID_1,
                         fetchTile: fetchRealRemoteTile,
 
                         entity: (feature) => {
                             const elm = markerElement.cloneNode(true);
                             elm.title = `${feature.properties.name ?? ''} ${feature.properties.admin} `;
+
                             return new MMapMarker(
                                 {id: feature.properties.OBJECTID_1.toString(), coordinates: feature.geometry.coordinates},
                                 elm

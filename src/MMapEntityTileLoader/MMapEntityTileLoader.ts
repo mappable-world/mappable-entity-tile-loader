@@ -8,14 +8,45 @@ import throttle from 'lodash/throttle';
 export type GeojsonFeature = GenericFeature<LngLat>;
 
 export interface MMapEntityTileLoaderProps {
-    /** Tile size in pixels. World is 256x256 pixels on 0 zoom in 3.0. */
+    /** Tile size in pixels. World is 256x256 pixels on 0 zoom in Mappable */
     readonly tileSize: number;
+
+    /**
+     * Function for loading data by tile, should return an array of GeoJSON features
+     */
     fetchTile: (args: {tx: number; ty: number; tz: number; signal: AbortSignal}) => Promise<GeojsonFeature[]>;
+
+    /**
+     * Function for getting the id of the feature.
+     */
     getFeatureId: (feature: GeojsonFeature) => string;
+
+    /**
+     * Function for creating an [MMapEntity](https://mappable.world/docs/js-api/ref/index.html#class-mmapentity) from a feature.
+     */
     entity: (feature: GeojsonFeature) => MMapEntity<unknown>;
+
+    /**
+     * Function is called when a feature is added to the map.
+     * If the function returns `false`, the feature will not be added to the map.
+     * In this case, you should add the feature to the map yourself.
+     */
     onFeatureAdd: (feature: GeojsonFeature) => void | false;
+
+    /**
+     * Function is called when a feature is removed from the map.
+     * If the function returns `false`, the feature will not be removed from the map.
+     * In this case, you should remove the feature from the map yourself.
+     */
     onFeatureRemove: (feature: GeojsonFeature) => void | false;
-    delayExecution?: number;
+
+    /**
+     * By default, when changing tiles, old features are immediately deleted.
+     * But the same points may appear in the new tile, then there was no point in deleting them.
+     * Set the delay for applying deletion operations.
+     * @default 0
+     */
+    removalDelay?: number;
 }
 
 interface Tile {
@@ -34,8 +65,6 @@ interface SharedFeature {
     entity?: MMapEntity<unknown>;
 }
 
-export const DEFAULT_THROTTLE_TIMOUT = 300;
-
 export class MMapEntityTileLoader extends mappable.MMapComplexEntity<MMapEntityTileLoaderProps> {
     static [mappable.overrideKeyReactify] = MMapEntityTileLoaderReactifyOverride;
 
@@ -45,7 +74,7 @@ export class MMapEntityTileLoader extends mappable.MMapComplexEntity<MMapEntityT
     private _requestDeleteFeatures: Function;
 
     constructor(props: MMapEntityTileLoaderProps) {
-        super({delayExecution: DEFAULT_THROTTLE_TIMOUT, ...props}, {container: true});
+        super({removalDelay: 0, ...props}, {container: true});
 
         this._listener = new mappable.MMapListener({
             onUpdate: ({mapInAction}) => {
@@ -57,15 +86,15 @@ export class MMapEntityTileLoader extends mappable.MMapComplexEntity<MMapEntityT
 
         this._addDirectChild(this._listener);
 
-        this._requestDeleteFeatures = this._props.delayExecution
-            ? throttle(() => this._deleteFeatures(), this._props.delayExecution)
+        this._requestDeleteFeatures = this._props.removalDelay
+            ? throttle(() => this._deleteFeatures(), this._props.removalDelay)
             : () => this._deleteFeatures();
     }
 
-    protected override _onUpdate({delayExecution}: Partial<MMapEntityTileLoaderProps>) {
-        if (delayExecution !== undefined) {
-            this._requestDeleteFeatures = delayExecution
-                ? throttle(() => this._deleteFeatures(), delayExecution)
+    protected override _onUpdate({removalDelay}: Partial<MMapEntityTileLoaderProps>) {
+        if (removalDelay !== undefined) {
+            this._requestDeleteFeatures = removalDelay
+                ? throttle(() => this._deleteFeatures(), removalDelay)
                 : () => this._deleteFeatures();
         }
     }
