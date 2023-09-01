@@ -71,7 +71,7 @@ export class MMapEntityTileLoader extends mappable.MMapComplexEntity<MMapEntityT
     private _tiles = new Map<string, Tile>();
     private _features = new Map<string, SharedEntity>();
     private _listener: MMapListener;
-    private _requestDeleteFeatures: Function;
+    private _requestDeleteFeatures: ReturnType<typeof throttle>;
 
     constructor(props: MMapEntityTileLoaderProps) {
         super({removalDelay: 0, ...props}, {container: true});
@@ -86,16 +86,14 @@ export class MMapEntityTileLoader extends mappable.MMapComplexEntity<MMapEntityT
 
         this._addDirectChild(this._listener);
 
-        this._requestDeleteFeatures = this._props.removalDelay
-            ? throttle(() => this._deleteFeatures(), this._props.removalDelay)
-            : () => this._deleteFeatures();
+        this._requestDeleteFeatures = throttle(() => this._deleteFeatures(), this._props.removalDelay);
     }
 
     protected override _onUpdate({removalDelay}: Partial<MMapEntityTileLoaderProps>) {
         if (removalDelay !== undefined) {
-            this._requestDeleteFeatures = removalDelay
-                ? throttle(() => this._deleteFeatures(), removalDelay)
-                : () => this._deleteFeatures();
+            this._deleteFeatures();
+            this._requestDeleteFeatures.cancel();
+            this._requestDeleteFeatures = throttle(() => this._deleteFeatures(), removalDelay);
         }
     }
 
