@@ -6,7 +6,7 @@
     "main": "./dist/esm/index.js",
     "scripts": {
         "test": "jest",
-        "lint": "eslint ./",
+        "lint": "eslint ./ && tsc --noemit --noErrorTruncation",
         "build": "npm run build:prod && npm run build:esm",
         "build:dev": "webpack --mode=development",
         "build:prod": "webpack --mode=production --node-env=production",
