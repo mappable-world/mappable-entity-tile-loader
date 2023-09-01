@@ -69,7 +69,7 @@ export class MMapEntityTileLoader extends mappable.MMapComplexEntity<MMapEntityT
     static [mappable.overrideKeyReactify] = MMapEntityTileLoaderReactifyOverride;
 
     private _tiles = new Map<string, Tile>();
-    private _features = new Map<string, SharedEntity>();
+    private _entities = new Map<string, SharedEntity>();
     private _listener: MMapListener;
     private _requestRemoveFeatures: ReturnType<typeof throttle>;
 
@@ -86,14 +86,14 @@ export class MMapEntityTileLoader extends mappable.MMapComplexEntity<MMapEntityT
 
         this._addDirectChild(this._listener);
 
-        this._requestRemoveFeatures = throttle(() => this._removeFeatures(), this._props.removalDelay);
+        this._requestRemoveFeatures = throttle(() => this._removeEntities(), this._props.removalDelay);
     }
 
     protected override _onUpdate({removalDelay}: Partial<MMapEntityTileLoaderProps>) {
         if (removalDelay !== undefined) {
-            this._removeFeatures();
+            this._removeEntities();
             this._requestRemoveFeatures.cancel();
-            this._requestRemoveFeatures = throttle(() => this._removeFeatures(), removalDelay);
+            this._requestRemoveFeatures = throttle(() => this._removeEntities(), removalDelay);
         }
     }
 
@@ -103,7 +103,7 @@ export class MMapEntityTileLoader extends mappable.MMapComplexEntity<MMapEntityT
         }
 
         this._tiles.clear();
-        this._features.clear();
+        this._entities.clear();
         this._requestRemoveFeatures.cancel();
     }
 
@@ -184,7 +184,7 @@ export class MMapEntityTileLoader extends mappable.MMapComplexEntity<MMapEntityT
             const id = this._props.getFeatureId(feature);
             if (tile.entities.has(id)) continue;
 
-            const existingFeature = this._features.get(id);
+            const existingFeature = this._entities.get(id);
             const SharedEntity = existingFeature ?? {
                 id,
                 feature,
@@ -195,26 +195,26 @@ export class MMapEntityTileLoader extends mappable.MMapComplexEntity<MMapEntityT
             tile.entities.set(id, SharedEntity);
 
             if (!existingFeature) {
-                this._features.set(id, SharedEntity);
-                this.__addFeature(SharedEntity);
+                this._entities.set(id, SharedEntity);
+                this.__addEntity(SharedEntity);
             }
         }
     }
 
-    private _removeFeatures() {
+    private _removeEntities() {
         this._markedForDeletion.forEach((sharedEntity) => {
             if (sharedEntity.refcount !== 0) {
                 return;
             }
 
-            this._features.delete(sharedEntity.id);
-            this.__removeFeature?.(sharedEntity);
+            this._entities.delete(sharedEntity.id);
+            this.__removeEntity?.(sharedEntity);
         });
 
         this._markedForDeletion.clear();
     }
 
-    private __addFeature(sharedEntity: SharedEntity): void {
+    private __addEntity(sharedEntity: SharedEntity): void {
         if (this._props.onFeatureAdd?.(sharedEntity.feature) === false) {
             return;
         }
@@ -226,7 +226,7 @@ export class MMapEntityTileLoader extends mappable.MMapComplexEntity<MMapEntityT
         this._addDirectChild(sharedEntity.entity);
     }
 
-    private __removeFeature(sharedEntity: SharedEntity): void {
+    private __removeEntity(sharedEntity: SharedEntity): void {
         if (this._props.onFeatureRemove?.(sharedEntity.feature) === false) {
             return;
         }
