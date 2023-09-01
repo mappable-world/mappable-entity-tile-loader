@@ -1,5 +1,5 @@
 mappable.import.loaders.unshift(async (pkg) => {
-    if (!pkg.includes('@mappable-world/mappable-entity-tile-loader')) {
+    if (!pkg.startsWith('@mappable-world/mappable-entity-tile-loader')) {
         return;
     }
 

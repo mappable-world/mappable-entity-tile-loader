@@ -22,11 +22,11 @@ The package is located in the `dist` folder:
 
 to use Mappable JS Module you need to add your module loading handler to JS API
 
-## Development
+### Development
 
 ```js
 mappable.import.loaders.unshift(async (pkg) => {
-  if (!pkg.includes('@mappable-world/mappable-entity-tile-loader')) {
+  if (!pkg.startsWith('@mappable-world/mappable-entity-tile-loader')) {
     return;
   }
 
@@ -36,7 +36,7 @@ mappable.import.loaders.unshift(async (pkg) => {
 });
 ```
 
-## Production
+### Production
 
 ```js
 mappable.import.loaders.unshift(async (pkg) => {
@@ -80,6 +80,20 @@ map.addChild(
   })
 );
 ```
+
+another way to use `MMapEntityTileLoader` as usual npm package:
+
+```sh
+npm i @mappable-world/mappable-entity-tile-loader
+```
+
+and dynamic import
+
+```js
+const {MMapEntityTileLoader} = await import('@mappable-world/mappable-entity-tile-loader/dist/esm/index');
+```
+
+## API
 
 Constructor parameters `MMapEntityTileLoader`:
 
