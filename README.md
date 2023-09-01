@@ -186,6 +186,7 @@ function App() {
         <MMapControlButton text={`urban area in loaded tiles: ${total.toFixed(2)} km2`} />
       </MMapControls>
       <MMapEntityTileLoader
+        renderDelay={100}
         tileSize={TILE_SIZE}
         getFeatureId={useCallback((feature) => feature.id, [])}
         fetchTile={fetchTile}
@@ -206,3 +207,6 @@ function App() {
   );
 }
 ```
+
+For react version, you can use `renderDelay` parameter, because react will call `render` function for each feature.
+To avoid unnecessary calls, you can set the delay for applying the changes.
