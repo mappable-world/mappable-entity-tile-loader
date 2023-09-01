@@ -1,6 +1,6 @@
 import type TReact from 'react';
 import type {MMapEntity} from '@mappable-world/mappable-types';
-import type {CustomReactify} from '@mappable-world/mappable-types/reactify/reactify';
+import type {CustomReactify, OverrideProps} from '@mappable-world/mappable-types/reactify/reactify';
 import type {
     GeojsonFeature,
     MMapEntityTileLoader as MMapEntityTileLoaderI,
@@ -37,12 +37,9 @@ import throttle from 'lodash/throttle';
  * ```
  */
 
-type Prettify<T> = {
-    [K in keyof T]: T[K];
-} & {};
-
-type MMapEntityTileLoaderReactifiedProps = Prettify<
-    Omit<MMapEntityTileLoaderProps, 'entity'> & {
+type MMapEntityTileLoaderReactifiedProps = OverrideProps<
+    MMapEntityTileLoaderProps,
+    {
         /** Function that returns MMapEntity react component to render feature*/
         entity: (feature: GeojsonFeature) => TReact.ReactElement;
 
