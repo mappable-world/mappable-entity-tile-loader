@@ -202,14 +202,14 @@ export class MMapEntityTileLoader extends mappable.MMapComplexEntity<MMapEntityT
     }
 
     private _removeEntities() {
-        this._markedForDeletion.forEach((sharedEntity) => {
+        for (const sharedEntity of this._markedForDeletion) {
             if (sharedEntity.refcount !== 0) {
-                return;
+                continue;
             }
 
             this._entities.delete(sharedEntity.id);
-            this.__removeEntity?.(sharedEntity);
-        });
+            this.__removeEntity(sharedEntity);
+        }
 
         this._markedForDeletion.clear();
     }
