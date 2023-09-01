@@ -38,7 +38,7 @@ describe('MMap smoke test', () => {
 
         total = 0;
         tileLoader = new MMapEntityTileLoader({
-            throttleTimeout: 0,
+            defaultTimeout: 0,
             tileSize: 256, // World is 256x256 pixels on 0 zoom in 3.0.
             getFeatureId: (feature) => feature.id,
             fetchTile: ({tx, ty}) => {

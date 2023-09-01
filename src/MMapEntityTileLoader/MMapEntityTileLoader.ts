@@ -15,7 +15,7 @@ export interface MMapEntityTileLoaderProps {
     entity: (feature: GeojsonFeature) => MMapEntity<unknown>;
     onFeatureAdd: (feature: GeojsonFeature) => void | false;
     onFeatureRemove: (feature: GeojsonFeature) => void | false;
-    throttleTimeout?: number;
+    delayExecution?: number;
 }
 
 interface Tile {
@@ -45,7 +45,7 @@ export class MMapEntityTileLoader extends mappable.MMapComplexEntity<MMapEntityT
     private _requestDeleteFeatures: Function;
 
     constructor(props: MMapEntityTileLoaderProps) {
-        super({throttleTimeout: DEFAULT_THROTTLE_TIMOUT, ...props}, {container: true});
+        super({delayExecution: DEFAULT_THROTTLE_TIMOUT, ...props}, {container: true});
 
         this._listener = new mappable.MMapListener({
             onUpdate: ({mapInAction}) => {
@@ -57,15 +57,15 @@ export class MMapEntityTileLoader extends mappable.MMapComplexEntity<MMapEntityT
 
         this._addDirectChild(this._listener);
 
-        this._requestDeleteFeatures = this._props.throttleTimeout
-            ? throttle(() => this._deleteFeatures(), this._props.throttleTimeout)
+        this._requestDeleteFeatures = this._props.delayExecution
+            ? throttle(() => this._deleteFeatures(), this._props.delayExecution)
             : () => this._deleteFeatures();
     }
 
-    protected override _onUpdate({throttleTimeout}: Partial<MMapEntityTileLoaderProps>) {
-        if (throttleTimeout !== undefined) {
-            this._requestDeleteFeatures = throttleTimeout
-                ? throttle(() => this._deleteFeatures(), throttleTimeout)
+    protected override _onUpdate({delayExecution}: Partial<MMapEntityTileLoaderProps>) {
+        if (delayExecution !== undefined) {
+            this._requestDeleteFeatures = delayExecution
+                ? throttle(() => this._deleteFeatures(), delayExecution)
                 : () => this._deleteFeatures();
         }
     }

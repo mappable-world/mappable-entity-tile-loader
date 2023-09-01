@@ -6,7 +6,6 @@ import type {
     MMapEntityTileLoader as MMapEntityTileLoaderI,
     MMapEntityTileLoaderProps
 } from '../MMapEntityTileLoader';
-import {DEFAULT_THROTTLE_TIMOUT} from '../MMapEntityTileLoader';
 import throttle from 'lodash/throttle';
 
 /**
@@ -90,7 +89,7 @@ export const MMapEntityTileLoaderReactifyOverride: CustomReactify<MMapEntityTile
     >((props, ref) => {
         const [features, setFeatures] = React.useState<GeojsonFeature[]>([]);
 
-        const updateFeaturesList = React.useMemo(() => throttle(setFeatures, props.throttleTimeout), []);
+        const updateFeaturesList = React.useMemo(() => throttle(setFeatures, props.delayExecution), []);
 
         const onFeatureAdd = React.useCallback(
             (feature: GeojsonFeature): false => {

@@ -26,8 +26,8 @@ const TEST_TILE_SERVER = 'https://mappable-test-server-d7778c5d7460.herokuapp.co
 let geojson = null;
 
 /**
- * Loading test data
- * @returns {Promise<*>}
+ * Load the test json file
+ * @returns {Promise<object>}
  */
 async function getJson() {
     if (geojson === null) {
@@ -39,7 +39,19 @@ async function getJson() {
 }
 
 /**
- * For the turf library, we generate a rectangular geojson to calculate point intersections
+ * In order to find in the array all the points that lie inside the tile, you need to
+ * - translate tile coordinates `x`, `y`, `z` into world coordinates (in terms of `mappable`)
+ * - convert world coordinates to geographic coordinates (Web Mercator)
+ * From the obtained geographic coordinates, you can build a tile rectangle
+ * and use it to search for intersections in an array of points.
+ * For this we will use the turf.js library
+ *
+ * ```js
+ * const tile = {type: 'Feature', geometry: makeTileGeometry(map.projection, {tx, ty, tz})};
+ * const json = await getJson();
+ * const points = json.features.filter((x) => turf.booleanIntersects(tile, x));
+ * ```
+ *
  * @param projection
  * @param tx
  * @param ty
@@ -62,6 +74,16 @@ function makeTileGeometry(projection, {tx, ty, tz}) {
     return {type: 'Polygon', coordinates};
 }
 
+/**
+ * Function to fetch a tile from the test json file.
+ * It is not real network request, but it is emulated by a timeout.
+ *
+ * @param tx
+ * @param ty
+ * @param tz
+ * @param signal
+ * @returns {Promise<T[]>}
+ */
 async function fetchTestTile({tx, ty, tz, signal}) {
     // For testing purposes only, we are emulating data downloads over the network
     await new Promise((r) => setTimeout(r, 50 * Math.random()));
@@ -72,29 +94,26 @@ async function fetchTestTile({tx, ty, tz, signal}) {
     return json.features.filter((x) => turf.booleanIntersects(tile, x));
 }
 
-
-
-
 const cache = new Map();
+
+/**
+ * Function to fetch a tile from real remote server.
+ *
+ * @param tx
+ * @param ty
+ * @param tz
+ * @param signal
+ * @returns {Promise<any|*[]>}
+ */
 async function fetchRealRemoteTile({tx, ty, tz, signal}) {
     const key = `${tx}-${ty}-${tz}`;
     if (cache.has(key)) {
         return cache.get(key);
     }
 
-    const data = await fetch(TEST_TILE_SERVER + '/v1/tile', {
-        method: 'post',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            x: tx,
-            y: ty,
-            z: tz
-        }),
+    const data = await fetch(`${TEST_TILE_SERVER}/v1/tile?x=${tx}&y=${ty}&z=${tz}`, {
         signal
-    }).then(resp => resp.json());
+    }).then((resp) => resp.json());
     signal.throwIfAborted();
 
     const features = [...data.features];
