@@ -1,0 +1,14 @@
+html,
+body,
+#app {
+    width: 100%;
+    height: 100%;
+}
+
+.circle {
+    width: 10px;
+    height: 10px;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    background: red;
+}

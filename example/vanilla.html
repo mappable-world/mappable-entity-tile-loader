@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Vanila example @mappable-world/mappable-entity-tile-loader</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+        <script src="https://js.api.mappable.world/3.0/?apikey=%APIKEY%&lang=en_US"></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/Turf.js/6.5.0/turf.min.js"
+            integrity="sha512-Q7HOppxoH0L2M7hreVoFCtUZimR2YaY0fBewIYzkCgmNtgOOZ5IgMNYxHgfps0qrO1ef5m7L1FeHrhXlq1I9HA=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        ></script>
+        <script src="common.js"></script>
+        <script>
+            window.map = null;
+
+            main();
+            async function main() {
+                await mappable.ready;
+                const {
+                    MMap,
+                    MMapDefaultSchemeLayer,
+                    MMapDefaultFeaturesLayer,
+                    MMapControlButton,
+                    MMapControls,
+                    MMapFeature,
+                    MMapMarker
+                } = mappable;
+
+                const {MMapZoomControl} = await mappable.import('@mappable-world/mappable-controls@0.0.1');
+                const {MMapEntityTileLoader} = await mappable.import('@mappable-world/mappable-entity-tile-loader');
+
+                map = new MMap(document.getElementById('app'), {location: LOCATION, zoomRange: ZOOM_RANGE});
+
+                let total = 0;
+                const totalButton = new MMapControlButton({text: '...'});
+                map.addChild(new MMapControls({position: 'top'}, [totalButton]));
+
+                map.addChild(
+                    new MMapEntityTileLoader({
+                        tileSize: TILE_SIZE, // World is 256x256 pixels on 0 zoom in 3.0.
+                        getFeatureId: (feature) => feature.id,
+                        fetchTile: fetchTestTile,
+
+                        entity: (feature) =>
+                            new MMapFeature({
+                                id: feature.id.toString(),
+                                geometry: feature.geometry,
+                                properties: feature.properties
+                            }),
+                        onFeatureAdd: (feature) => {
+                            console.log(JSON.stringify(feature));
+                            total += feature.properties.area_sqkm;
+                            totalButton.update({text: `urban area in loaded tiles: ${total.toFixed(2)} km2`});
+                        },
+                        onFeatureRemove: (feature) => {
+                            total -= feature.properties.area_sqkm;
+                            totalButton.update({text: `urban area in loaded tiles: ${total.toFixed(2)} km2`});
+                        }
+                    })
+                );
+
+                const markerElement = document.createElement('div');
+                markerElement.classList.add('circle');
+
+                map.addChild(
+                    new MMapEntityTileLoader({
+                        /**
+                         * By default, when changing tiles, old points are immediately deleted.
+                         * But the same points may appear in the new tile, then there was no point in deleting them.
+                         * Set the delay for applying deletion operations
+                         */
+                        delayExecution: 500,
+                        tileSize: TILE_SIZE, // World is 256x256 pixels on 0 zoom in Mappable
+                        getFeatureId: (feature) => feature.properties.OBJECTID_1,
+                        fetchTile: fetchRealRemoteTile,
+
+                        entity: (feature) => {
+                            const elm = markerElement.cloneNode(true);
+                            elm.title = `${feature.properties.name ?? ''} ${feature.properties.admin} `;
+
+                            return new MMapMarker(
+                                {id: feature.properties.OBJECTID_1.toString(), coordinates: feature.geometry.coordinates},
+                                elm
+                            );
+                        }
+                    })
+                );
+
+                map.addChild(new MMapDefaultSchemeLayer());
+                map.addChild(new MMapDefaultFeaturesLayer());
+
+                map.addChild(new MMapControls({position: 'right'}).addChild(new MMapZoomControl({})));
+            }
+        </script>
+
+        <link rel="stylesheet" href="common.css" />
+    </head>
+    <body>
+        <div id="app"></div>
+    </body>
+</html>

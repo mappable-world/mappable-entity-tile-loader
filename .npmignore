@@ -1,0 +1,16 @@
+.editorconfig
+.env
+.eslintignore
+.eslintrc.js
+.github
+.gitignore
+.idea
+.npmignore
+.npmrc
+.nvmrc
+.prettierrc.js
+.vscode
+jest.config.js
+node_modules
+src
+tests
