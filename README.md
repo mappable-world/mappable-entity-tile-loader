@@ -9,7 +9,7 @@ displayed on the map.
 
 The data is loaded tile-by-tile, so you don't have to load all the data at once.
 
-[![npm version](https://badge.fury.io/js/@mappable-world/mappable-entity-tile-loader.svg)](https://badge.fury.io/js/@mappable-world/mappable-entity-tile-loader)
+[![npm version](https://badge.fury.io/js/@mappable-world%2Fmappable-entity-tile-loader.svg)](https://badge.fury.io/js/@mappable-world%2Fmappable-entity-tile-loader.svg)
 [![npm](https://img.shields.io/npm/dm/@mappable-world/mappable-entity-tile-loader.svg)](https://www.npmjs.com/package/@mappable-world/mappable-entity-tile-loader)
 
 ## How use
