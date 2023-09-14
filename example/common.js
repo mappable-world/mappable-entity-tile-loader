@@ -111,14 +111,20 @@ async function fetchRealRemoteTile({tx, ty, tz, signal}) {
         return cache.get(key);
     }
 
-    const data = await fetch(`${TEST_TILE_SERVER}/v1/tile?x=${tx}&y=${ty}&z=${tz}`, {
-        signal
-    }).then((resp) => resp.json());
-    signal.throwIfAborted();
+    let features = [];
 
-    const features = [...data.features];
+    try {
+        const data = await fetch(`${TEST_TILE_SERVER}/v1/tile?x=${tx}&y=${ty}&z=${tz}`, {
+            signal
+        }).then((resp) => resp.json());
+        signal.throwIfAborted();
 
-    cache.set(key, features);
+        features = [...data.features];
+
+        cache.set(key, features);
+    } catch (e) {
+        console.error(e);
+    }
 
     return features;
 }

@@ -6,9 +6,11 @@ body,
 }
 
 .circle {
-    width: 10px;
-    height: 10px;
-    border: 1px solid #ccc;
-    border-radius: 50%;
-    background: red;
+    width: 0;
+    height: 0;
+}
+
+.circle svg {
+    position: absolute;
+    transform: translate(-50%, -100%);
 }
