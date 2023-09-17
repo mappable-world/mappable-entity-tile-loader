@@ -17,7 +17,7 @@ jobs:
           cache: 'npm'
       - run: npm ci
       - run: APIKEY=${{ secrets.APIKEY }} npm run build
-      - run: npm run examples
+      - run: APIKEY=${{ secrets.APIKEY }} npm run examples
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v2
         with:
