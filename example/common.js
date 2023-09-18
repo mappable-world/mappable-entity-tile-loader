@@ -114,7 +114,7 @@ async function fetchRealRemoteTile({tx, ty, tz, signal}) {
     let features = [];
 
     try {
-        const data = await fetch(`${TEST_TILE_SERVER}/v1/tile-clusterer?x=${tx}&y=${ty}&z=${tz}`, {
+        const data = await fetch(`${TEST_TILE_SERVER}/v1/tile?x=${tx}&y=${ty}&z=${tz}`, {
             signal
         }).then((resp) => resp.json());
         signal.throwIfAborted();
