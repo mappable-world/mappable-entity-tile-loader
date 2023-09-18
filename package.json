@@ -1,5 +1,5 @@
 {
-  "version": "0.0.4",
+  "version": "0.0.5",
   "name": "@mappable-world/mappable-entity-tile-loader",
   "description": "Mappable Maps JS API 3.0 example @mappable-world/mappable-entity-tile-loader",
   "types": "./dist/types/index.d.ts",
