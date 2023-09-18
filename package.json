@@ -1,5 +1,5 @@
 {
-  "version": "0.0.7",
+  "version": "0.0.8",
   "name": "@mappable-world/mappable-entity-tile-loader",
   "description": "Mappable Maps JS API 3.0 example @mappable-world/mappable-entity-tile-loader",
   "types": "./dist/types/index.d.ts",
@@ -22,7 +22,7 @@
     "bump:git": "git add --all && git commit -m \"New version $npm_package_version\" && git tag $npm_package_version && git push --tags origin HEAD:main"
   },
   "devDependencies": {
-    "@mappable-world/mappable-cli": "^0.0.11",
+    "@mappable-world/mappable-cli": "^0.0.13",
     "@mappable-world/mappable-types": "^0.0.8",
     "@types/got": "9.6.12",
     "@types/jest": "29.5.3",

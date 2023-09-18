@@ -14,6 +14,13 @@ body,
     margin: 0 auto;
 }
 
+.version {
+    font-size: 14px;
+    padding: 10px 0;
+    color: #999;
+    text-align: right;
+}
+
 .circle {
     width: 0;
     height: 0;
