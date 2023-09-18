@@ -75,15 +75,15 @@
                          */
                         delayExecution: 500,
                         tileSize: TILE_SIZE, // World is 256x256 pixels on 0 zoom in Mappable
-                        getFeatureId: ({feature}) => `m${feature.properties.OBJECTID_1}`,
+                        getFeatureId: (feature) => `m${feature.id}`,
                         fetchTile: fetchRealRemoteTile,
 
-                        entity: ({feature}) => {
+                        entity: (feature) => {
                             const elm = markerElement.cloneNode(true);
                             elm.title = `${feature.properties.name ?? ''} ${feature.properties.admin} `;
                             return new MMapMarker(
                                 {
-                                    id: `m${feature.properties.OBJECTID_1}`,
+                                    id: `m${feature.id}`,
                                     coordinates: feature.geometry.coordinates
                                 },
                                 elm
