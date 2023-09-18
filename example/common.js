@@ -21,7 +21,7 @@ const ZOOM_RANGE = {min: 4, max: 10};
 const LOCATION = {bounds: BOUNDS};
 const TILE_SIZE = 256;
 const TEST_JSON = 'https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_50m_urban_areas.geojson';
-const TEST_TILE_SERVER = 'https://mappable-test-server-d7778c5d7460.herokuapp.com';
+const TEST_TILE_SERVER =    'https://mappable-test-server-d7778c5d7460.herokuapp.com';
 
 let geojson = null;
 
