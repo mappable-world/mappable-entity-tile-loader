@@ -80,7 +80,15 @@
 
                         entity: (feature) => {
                             const elm = markerElement.cloneNode(true);
+
+                            if (feature.properties.count > 1) {
+                                elm.classList.remove('circle');
+                                elm.classList.add('cluster');
+                                elm.innerHTML = `<div class="cluster-content"><span class="cluster-text">${feature.properties.count}</span></div>`;
+                            }
+
                             elm.title = `${feature.properties.name ?? ''} ${feature.properties.admin} `;
+
                             return new MMapMarker(
                                 {
                                     id: `m${feature.id}`,

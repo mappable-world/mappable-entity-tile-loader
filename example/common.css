@@ -21,6 +21,10 @@ body,
     text-align: right;
 }
 
+:root {
+    --radius: 40px;
+}
+
 .circle {
     width: 0;
     height: 0;
@@ -29,4 +33,42 @@ body,
 .circle svg {
     position: absolute;
     transform: translate(-50%, -100%);
+}
+
+.cluster {
+    position: relative;
+
+    width: var(--radius, 20px);
+    height: var(--radius, 20px);
+
+    color: #8a64eb;
+    border: 2px solid currentColor;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.7);
+
+    transform: translate(-50%, -50%);
+}
+
+.cluster-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 70%;
+    height: 70%;
+
+    border-radius: 50%;
+    background-color: currentColor;
+
+    transform: translate3d(-50%, -50%, 0);
+}
+
+.cluster-text {
+    font-size: 0.9em;
+
+    color: #fff;
 }

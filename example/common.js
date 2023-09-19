@@ -13,6 +13,8 @@ mappable.import.loaders.unshift(async (pkg) => {
     return window[`${pkg}`];
 });
 
+const SEARCH_PARAMS = new URLSearchParams(window.location.search);
+
 const BOUNDS = [
     [53.20890963521473, 25.52765018907181],
     [57.444403818421854, 24.71096299361919]
@@ -21,7 +23,8 @@ const ZOOM_RANGE = {min: 4, max: 10};
 const LOCATION = {bounds: BOUNDS};
 const TILE_SIZE = 256;
 const TEST_JSON = 'https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_50m_urban_areas.geojson';
-const TEST_TILE_SERVER =    'https://mappable-test-server-d7778c5d7460.herokuapp.com';
+const TEST_TILE_SERVER = 'https://mappable-test-server-d7778c5d7460.herokuapp.com';
+const IS_TILE_CLUSTER = Boolean(SEARCH_PARAMS.get('byCluster'));
 
 let geojson = null;
 
@@ -114,9 +117,12 @@ async function fetchRealRemoteTile({tx, ty, tz, signal}) {
     let features = [];
 
     try {
-        const data = await fetch(`${TEST_TILE_SERVER}/v1/tile?x=${tx}&y=${ty}&z=${tz}`, {
-            signal
-        }).then((resp) => resp.json());
+        const data = await fetch(
+            `${TEST_TILE_SERVER}/v1/tile${IS_TILE_CLUSTER ? '-clusterer' : ''}?x=${tx}&y=${ty}&z=${tz}`,
+            {
+                signal
+            }
+        ).then((resp) => resp.json());
         signal.throwIfAborted();
 
         features = [...data.features];
