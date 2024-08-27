@@ -22,8 +22,8 @@
     "bump:git": "git add --all && git commit -m \"New version $npm_package_version\" && git tag $npm_package_version && git push --tags origin HEAD:main"
   },
   "devDependencies": {
-    "@mappable-world/mappable-cli": "^0.0.17",
-    "@mappable-world/mappable-types": "^0.0.8",
+    "@mappable-world/mappable-cli": "^0.0.36",
+    "@mappable-world/mappable-types": "^0.0.20",
     "@types/got": "9.6.12",
     "@types/jest": "29.5.3",
     "@types/jsdom": "21.1.1",
