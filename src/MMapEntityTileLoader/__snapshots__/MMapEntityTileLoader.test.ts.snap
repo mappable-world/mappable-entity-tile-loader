@@ -34,7 +34,7 @@ exports[`MMap smoke test Move map should load and render another features 1`] = 
             rotateX(0.00000rad)
             translate3d(0px, 0px, 798.6588728197398px)
             rotateZ(0.00000rad) translate3d(-461px, -288px, 0px)
-        ; z-index: -1;",
+        ;",
                       },
                       "nodeName": "mappable",
                     },
@@ -46,7 +46,7 @@ exports[`MMap smoke test Move map should load and render another features 1`] = 
             rotateX(0.00000rad)
             translate3d(0px, 0px, 0px)
             rotateZ(0.00000rad) translate3d(0px, 0px, 0px)
-        ; z-index: 9;",
+        ;",
                       },
                       "nodeName": "mappable",
                     },
@@ -93,7 +93,7 @@ exports[`MMap smoke test Move map should load and render another features 1`] = 
                                 "fill": "rgb(0,102,255)",
                                 "fill-opacity": "0.6",
                                 "fill-rule": "evenodd",
-                                "id": "mappable--feature-2-1434",
+                                "id": "mappable--feature-1-1434",
                                 "stroke-dasharray": "",
                                 "stroke-linecap": "round",
                                 "stroke-linejoin": "round",
@@ -170,10 +170,16 @@ exports[`MMap smoke test Move map should load and render another features 1`] = 
         },
         {
           "attributes": {
-            "class": "mappable--map-copyrights__logo mappable--icon-logo-en-black",
+            "class": "mappable--icon-logo-en-black mappable--map-copyrights__logo",
             "style": "width: 80px; height: 20px;",
           },
           "nodeName": "span",
+        },
+        {
+          "attributes": {
+            "class": "mappable--map-copyrights__scale",
+          },
+          "nodeName": "div",
         },
       ],
       "nodeName": "div",
@@ -217,7 +223,7 @@ exports[`MMap smoke test should add several polygons on map 1`] = `
             rotateX(0.00000rad)
             translate3d(0px, 0px, 0px)
             rotateZ(0.00000rad) translate3d(0px, 0px, 0px)
-        ; z-index: 8;",
+        ;",
                       },
                       "nodeName": "mappable",
                     },
@@ -391,10 +397,16 @@ exports[`MMap smoke test should add several polygons on map 1`] = `
         },
         {
           "attributes": {
-            "class": "mappable--map-copyrights__logo mappable--icon-logo-en-black",
+            "class": "mappable--icon-logo-en-black mappable--map-copyrights__logo",
             "style": "width: 80px; height: 20px;",
           },
           "nodeName": "span",
+        },
+        {
+          "attributes": {
+            "class": "mappable--map-copyrights__scale",
+          },
+          "nodeName": "div",
         },
       ],
       "nodeName": "div",
